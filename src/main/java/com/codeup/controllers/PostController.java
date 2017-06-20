@@ -1,6 +1,8 @@
 package com.codeup.controllers;
 
 import com.codeup.models.Post;
+import com.codeup.svcs.PostSvc;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,23 +14,26 @@ import java.util.ArrayList;
 
 @Controller
 public class PostController {
+    private final PostSvc postSvc;
+
+    @Autowired
+    public PostController (PostSvc postSvc){
+        this.postSvc = postSvc;
+    }
 
     @RequestMapping(path = "/posts", method = RequestMethod.GET)
 
     public String indexPage(Model model) {
-        ArrayList<Post> posts = new ArrayList<>();
-        posts.add(new Post("test post again", "here is a dummy body"));
-        posts.add(new Post("more test post", "more more here is a dummy body"));
+        ArrayList<Post> posts = (ArrayList<Post>) postSvc.findAll();
         model.addAttribute("posts", posts);
         return "posts/index" ;
     }
 
 
-    @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "/posts/{index}", method = RequestMethod.GET)
 
-    public String individualpost(@PathVariable String id, Model model) {
-        Post post = new Post("test post", "this is my first blog post");
-        model.addAttribute("post", post);
+    public String individualpost(@PathVariable int index, Model model) {
+        model.addAttribute("post", postSvc.findOne(index));
         return "posts/show";
     }
 
