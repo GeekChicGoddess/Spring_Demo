@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.springframework.org/schema/beans">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Roll Dice</title>
+</head>
+<body>
+<p><h1>What random number will be rolled?</h1></p>
+<p><h2>Make your guess!</h2></p>
+<div th:each="side : ${diceSides}">
+<p><a th:href="@{'roll-dice/'+${side}}"><span th:text="'My guess is'+ ${side}"></span></a></p>
+</div>
+<div th:if="${side}">
+    <p><h2><span th:text="'You Guessed '+ ${side}"></span></h2></p>
+    <p>Roll was <span th:text="${roll}"></span></p>
+    <p th:if="${match}"><h1>You Win!</h1></p>
+    <p th:if="not ${match}"><h1>You Lose!</h1></p>
+
+</div>
+
+</body>
+</html>
