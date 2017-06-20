@@ -8,6 +8,16 @@ public class Post {
     private String title;
     private String body;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    private long id;
+
     public Post (String title, String body){
         this.body = body;
         this.title = title;

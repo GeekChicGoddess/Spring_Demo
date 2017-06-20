@@ -10,7 +10,7 @@ import java.util.List;
  * Created by melodytempleton on 6/20/17.
  */
 
-    @Service("PostSvc")
+    @Service("postSvc")
     public class PostSvc {
         private List<Post> posts;
 
@@ -24,12 +24,13 @@ import java.util.List;
         }
 
         public Post save(Post post) {
+            post.setId((long) posts.size()+1);
             posts.add(post);
             return post;
         }
 
-        public Post findOne(int index) {
-            return posts.get(index-1);
+        public Post findOne(long id) {
+            return posts.get((int)id-1);
         }
 
         private void createPosts() {

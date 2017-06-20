@@ -30,10 +30,10 @@ public class PostController {
     }
 
 
-    @RequestMapping(path = "/posts/{index}", method = RequestMethod.GET)
+    @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
 
-    public String individualpost(@PathVariable int index, Model model) {
-        model.addAttribute("post", postSvc.findOne(index));
+    public String individualpost(@PathVariable long id, Model model) {
+        model.addAttribute("post", postSvc.findOne(id));
         return "posts/show";
     }
 
