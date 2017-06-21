@@ -18,6 +18,8 @@ public class Post {
 
     private long id;
 
+    public Post (){}
+
     public Post (String title, String body){
         this.body = body;
         this.title = title;
