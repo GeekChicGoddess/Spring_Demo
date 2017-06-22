@@ -2,11 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments :: head('Show Posts')" />
 <body>
+<div class="container">
 <div th:each="post : ${posts}">
+         <p><h4><span th:text="${post.id}"></span></h4></p>
         <p><h2><span th:text="${post.title}"></span></h2></p>
         <p><h4><span th:text="${post.body}"></span></h4></p>
     </div>
 
-
+</div>
 </body>
 </html>
