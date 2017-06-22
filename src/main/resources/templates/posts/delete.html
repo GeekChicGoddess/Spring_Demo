@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments :: head('Delete Post')" />
+<body>
+<div class="container">
+    <form th:action="${'/posts/'+post.id+'/delete'}" method="post" th:object="${post}">
+<h1>Delete This Post?</h1>
+<p><h2><span th:text="${post.title}"></span></h2></p>
+<p><h4><span th:text="${post.id}"></span></h4></p>
+<p><h4><span th:text="${post.body}"></span></h4></p>
+<button class="btn btn-default">Delete</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,20 +1,22 @@
 package com.codeup.controllers;
 
 import com.codeup.models.Post;
+import com.codeup.repositories.PostsRepository;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 @Controller
 public class PostController {
-    private final PostSvc postSvc;
+    private PostsRepository postSvc;
 
     @Autowired
-    public PostController (PostSvc postSvc){
+    public PostController (PostsRepository postSvc){
         this.postSvc = postSvc;
     }
 
@@ -51,7 +53,7 @@ public class PostController {
         Post post = new Post(title, body);
         postSvc.save(post);
         Long id = post.getId();
-        return "redirect:/posts/" + id + "/edit";
+        return "redirect:/posts/" + id;
     }
 
     @GetMapping ("/posts/{id}/edit")
@@ -71,6 +73,21 @@ public class PostController {
         post.setTitle(title);
         post.setBody(body);
         return  "redirect:/posts/" +id;
+    }
+
+    @GetMapping ("/posts/{id}/delete")
+    public String showDeletePost(@PathVariable long id, Model model) {
+        model.addAttribute("post", postSvc.findOne(id));
+        return "posts/delete";
+    }
+
+
+
+    @PostMapping("/posts/{id}/delete")
+    @Transactional
+    public String deletePost(@PathVariable long id) {
+        postSvc.deleteById(id);
+        return  "redirect:/posts/";
     }
 
 

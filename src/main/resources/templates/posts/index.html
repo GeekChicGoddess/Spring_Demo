@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Show Posts</title>
-    <div th:each="post : ${posts}">
+<head th:include="fragments :: head('Show Posts')" />
+<body>
+<div th:each="post : ${posts}">
         <p><h2><span th:text="${post.title}"></span></h2></p>
         <p><h4><span th:text="${post.body}"></span></h4></p>
     </div>
-</head>
-<body>
-Index
+
+
 </body>
 </html>

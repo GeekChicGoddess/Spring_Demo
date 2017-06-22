@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Show</title>
-</head>
+<head th:include="fragments :: head('Show a post')" />
 <body>
 <h1>Show Post Page</h1>
 <p><h2><span th:text="${post.title}"></span></h2></p>

@@ -1,6 +1,7 @@
 package com.codeup.svcs;
 
 import com.codeup.models.Post;
+import com.codeup.repositories.PostsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,48 +13,17 @@ import java.util.List;
 
     @Service("postSvc")
     public class PostSvc {
-        private List<Post> posts;
 
-        public PostSvc() {
-            posts = new ArrayList<>();
-            createPosts();
+
+    private final PostsRepository postsRepository;
+
+
+    public PostSvc(PostsRepository postsRepository) {
+            this.postsRepository = postsRepository;
         }
 
-        public List<Post> findAll() {
-            return posts;
-        }
 
-        public Post save(Post post) {
-            post.setId((long) posts.size()+1);
-            posts.add(post);
-            return post;
-        }
 
-        public Post findOne(long id) {
-            return posts.get((int)id-1);
-        }
-
-        private void createPosts() {
-            Post entryOne = new Post("First Entry", "Good Stuff to say here");
-            save(entryOne);
-
-              Post entryTwo = new Post("Second Entry", "More Good Stuff to say here");
-            save(entryTwo);
-
-              Post entryThree = new Post("Third Entry", "Still More Good Stuff to say here");
-            save(entryThree);
-
-              Post entryFour = new Post("Fourth Entry", "OMG Lots of Good Stuff to say here");
-            save(entryFour);
-
-              Post entryFive = new Post("Fifth Entry", "It's amazing how much Good Stuff I have to say here");
-            save(entryFive);
-
-              Post entrySix = new Post("Sixth Entry", "Good Stuff. The Best Stuff.  Very bigly stuff");
-            save(entrySix
-            );
-
-        }
-    }
+}
 
 
