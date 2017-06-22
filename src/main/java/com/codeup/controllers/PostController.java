@@ -13,15 +13,15 @@ import java.util.ArrayList;
 
 @Controller
 public class PostController {
-    private PostsRepository postSvc;
+    private final PostSvc postSvc;
 
     @Autowired
-    public PostController (PostsRepository postSvc){
+    public PostController (PostSvc postSvc){
         this.postSvc = postSvc;
     }
 
-    @RequestMapping(path = "/posts", method = RequestMethod.GET)
 
+    @RequestMapping(path = "/posts", method = RequestMethod.GET)
     public String indexPage(Model model) {
         ArrayList<Post> posts = (ArrayList<Post>) postSvc.findAll();
         model.addAttribute("posts", posts);
@@ -29,7 +29,7 @@ public class PostController {
     }
 
 
-//    @RequestMapping(path = "/posts/{id}", method = RequestMethod.GET)
+
     @GetMapping ("/posts/{id}")
     public String individualpost(@PathVariable long id, Model model) {
         model.addAttribute("post", postSvc.findOne(id));
@@ -65,14 +65,9 @@ public class PostController {
 
 
     @PostMapping("/posts/{id}/edit")
-    public String editPost(
-                           @PathVariable long id,
-                           @RequestParam(name = "title") String title,
-                           @RequestParam(name = "body") String body) {
-        Post post = postSvc.findOne(id);
-        post.setTitle(title);
-        post.setBody(body);
-        return  "redirect:/posts/" +id;
+    public String editPost(@ModelAttribute Post post) {
+        postSvc.save(post);
+        return  "redirect:/posts/" +post.getId();
     }
 
     @GetMapping ("/posts/{id}/delete")
@@ -83,10 +78,11 @@ public class PostController {
 
 
 
-    @PostMapping("/posts/{id}/delete")
-    @Transactional
-    public String deletePost(@PathVariable long id) {
-        postSvc.deleteById(id);
+    @PostMapping("/posts/delete")
+//    @Transactional
+    public String deletePost(@ModelAttribute Post post, Model model) {
+        postSvc.deletePost(post.getId());
+        model.addAttribute("msg", "Your post was deleted");
         return  "redirect:/posts/";
     }
 

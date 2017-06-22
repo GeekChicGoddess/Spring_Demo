@@ -10,11 +10,6 @@ import java.util.List;
  */
 public interface PostsRepository extends CrudRepository<Post, Long>{
 
-    Post findByTitle(String title);
 
-    Post findById(Long id);
-
-
-    void deleteById(Long id);
 
 }
