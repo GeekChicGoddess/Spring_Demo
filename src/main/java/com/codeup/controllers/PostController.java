@@ -1,7 +1,9 @@
 package com.codeup.controllers;
 
 import com.codeup.models.Post;
+import com.codeup.models.User;
 import com.codeup.repositories.PostsRepository;
+import com.codeup.repositories.UsersRepository;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,10 +16,12 @@ import java.util.ArrayList;
 @Controller
 public class PostController {
     private final PostSvc postSvc;
+    private  final UsersRepository usersRepository;
 
     @Autowired
-    public PostController (PostSvc postSvc){
+    public PostController (PostSvc postSvc, UsersRepository usersRepository){
         this.postSvc = postSvc;
+        this.usersRepository = usersRepository;
     }
 
 
@@ -47,10 +51,11 @@ public class PostController {
     @PostMapping("/posts/create")
     public String create(
             @RequestParam(name = "title") String title,
-            @RequestParam(name = "body") String body,
-            Model model
-    ) {
+            @RequestParam(name = "body") String body) {
         Post post = new Post(title, body);
+        User user1 = new User("user1", "passw0rd", "user@mail.com");
+        user1.setId(1);
+        post.setUser(user1);
         postSvc.save(post);
         Long id = post.getId();
         return "redirect:/posts/" + id;
