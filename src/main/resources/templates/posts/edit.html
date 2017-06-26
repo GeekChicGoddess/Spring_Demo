@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments :: head('Edit Post')" />
 <body>
+<nav th:replace="fragments :: my-navbar"/>
 <div class="container">
 <p><h4><span th:text="${post.id}"></span></h4></p>
-<form th:action="${'/posts/'+post.id+'/edit'}" method="post" th:object="${post}" th:include="fragments :: form">
+<form th:action="${'/posts/'+post.id+'/edit'}" method="post" th:object="${post}" th:include="fragments :: mainform">
 
 </form>
 </div>
