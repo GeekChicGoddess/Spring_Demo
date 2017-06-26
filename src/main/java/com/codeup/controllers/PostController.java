@@ -6,11 +6,15 @@ import com.codeup.repositories.PostsRepository;
 import com.codeup.repositories.UsersRepository;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @Controller
@@ -50,15 +54,26 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String create(
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "body") String body) {
-        Post post = new Post(title, body);
-        User user1 = new User("user1", "passw0rd", "user@mail.com");
-        user1.setId(1);
-        post.setUser(user1);
-        postSvc.save(post);
-        Long id = post.getId();
-        return "redirect:/posts/" + id;
+//            @RequestParam(name = "title") String title,
+//            @RequestParam(name = "body") String body,
+            @Valid Post post,
+            Errors validation,
+            Model model){
+        if (validation.hasErrors()){
+            model.addAttribute("errors", validation);
+            model.addAttribute("post", post);
+            return "posts/create";
+        }
+        else {
+//        Post post = post;
+            User user1 = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            post.setUser(user1);
+//        post.setTitle(title);
+//        post.setBody(body);
+            postSvc.save(post);
+            Long id = post.getId();
+            return "redirect:/posts/" + id;
+        }
     }
 
     @GetMapping ("/posts/{id}/edit")

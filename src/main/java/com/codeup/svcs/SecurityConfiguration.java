@@ -1,6 +1,6 @@
 package com.codeup.svcs;
 
-import com.codeup.models.UserWithRoles;
+import com.codeup.repositories.UserDetailsLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/me") // user's home page, it can be any URL
+                .defaultSuccessUrl("/posts/create") // user's home page, it can be any URL
                 .permitAll() // Anyone can go to the login page
                 .and()
                 .authorizeRequests()
@@ -41,14 +41,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login?logout") // append a query string value
                 .and()
                 .authorizeRequests()
-                .antMatchers("/ads/create") // only authenticated users can create ads
+                .antMatchers("/posts/create") // only authenticated users can create ads
                 .authenticated()
         ;
+        http.csrf().disable(); // remove later
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
+//        auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetails);
     }
 
 

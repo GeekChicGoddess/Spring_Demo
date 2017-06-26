@@ -1,5 +1,6 @@
-package com.codeup.models;
+package com.codeup.svcs;
 
+import com.codeup.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
