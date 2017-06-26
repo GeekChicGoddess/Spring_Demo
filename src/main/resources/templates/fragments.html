@@ -31,12 +31,16 @@
     <div class="form-group">
         <label for="title">Title</label>
         <input id="title" type="text" size="100" th:field="*{title}"/>
-        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('title')}">
+            <p  th:errors="*{title}" />
+        </div>
     </div>
     <div class="form-group">
         <label for="body">Body</label>
         <input id="body" type="text" size="200" th:field="*{body}"/>
-        <p th:if="${#fields.hasErrors('body')}" th:errors="*{body}" />
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('body')}">
+            <p  th:errors="*{body}" />
+        </div>
     </div>
     <!--<div class="form-group">-->
         <!--<label for="userID">Body</label>-->
