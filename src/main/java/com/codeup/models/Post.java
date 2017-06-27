@@ -1,5 +1,6 @@
 package com.codeup.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -26,6 +27,12 @@ public class Post {
     @NotBlank(message = "Post must have a body")
     @Size(min = 10, message = "A body must be at least 10 characters")
     private String body;
+
+//    @OneToMany ( cascade = CascadeType.ALL, mappedBy = "post")
+//    private  List<PostImage> images;
+
+    @Column(nullable = true)
+    private String imageUrl;
 
     public long getId() {
         return id;
@@ -66,7 +73,8 @@ public class Post {
         this.user = user;
     }
 
-    @OneToOne
+    @ManyToOne
+    @JsonManagedReference
     @JoinColumn (name = "user_id")
     private User user;
 

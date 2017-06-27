@@ -2,18 +2,20 @@ package com.codeup.controllers;
 
 import com.codeup.models.Post;
 import com.codeup.models.User;
-import com.codeup.repositories.PostsRepository;
 import com.codeup.repositories.UsersRepository;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 
@@ -22,11 +24,27 @@ public class PostController {
     private final PostSvc postSvc;
     private  final UsersRepository usersRepository;
 
+    @Value("${file-upload-path}")
+    private String uploadPath;
+
     @Autowired
     public PostController (PostSvc postSvc, UsersRepository usersRepository){
         this.postSvc = postSvc;
         this.usersRepository = usersRepository;
     }
+
+
+    @GetMapping("/posts.json")
+    public @ResponseBody Iterable<Post> viewAllPosts() {
+        return postSvc.findAll();
+    }
+
+    @GetMapping("/posts/ajax")
+    public String viewAllPostsUsingAnAjaxCall(Model model) {
+        model.addAttribute("page", postSvc.findAll());
+        return "posts/ajax";
+    }
+
 
 
     @RequestMapping(path = "/posts", method = RequestMethod.GET)
@@ -38,7 +56,7 @@ public class PostController {
 
 
 
-    @GetMapping ("/posts/{id}")
+    @GetMapping("/posts/{id}")
     public String individualpost(@PathVariable long id, Model model) {
         model.addAttribute("post", postSvc.findOne(id));
         return "posts/show";
@@ -54,10 +72,9 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String create(
-//            @RequestParam(name = "title") String title,
-//            @RequestParam(name = "body") String body,
             @Valid Post post,
             Errors validation,
+//            @RequestParam(name = "file") MultipartFile unloadedfile,
             Model model){
         if (validation.hasErrors()){
             model.addAttribute("errors", validation);
@@ -65,11 +82,8 @@ public class PostController {
             return "posts/create";
         }
         else {
-//        Post post = post;
             User user1 = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             post.setUser(user1);
-//        post.setTitle(title);
-//        post.setBody(body);
             postSvc.save(post);
             Long id = post.getId();
             return "redirect:/posts/" + id;
@@ -99,13 +113,11 @@ public class PostController {
 
 
     @PostMapping("/posts/delete")
-//    @Transactional
     public String deletePost(@ModelAttribute Post post, Model model) {
         postSvc.deletePost(post.getId());
         model.addAttribute("msg", "Your post was deleted");
         return  "redirect:/posts/";
     }
-
 
 }
 

@@ -3,8 +3,10 @@ package com.codeup.svcs;
 import com.codeup.models.Post;
 import com.codeup.repositories.PostsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ import java.util.List;
     public Iterable<Post> findAll(){
         return postsRepository.findAll();
     }
+
 
     public  Post findOne(long id){
         return postsRepository.findOne(id);
