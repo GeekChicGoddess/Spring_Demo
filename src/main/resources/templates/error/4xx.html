@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ooops, Not Found</title>
+</head>
+<body>
+<th:block th:switch="${error}">
+    <div th:case="'Not Found'">
+        <h1>Page not found!!</h1>
+        <p><h3>Are you sure you entered that correctly?</h3></p>
+    </div>
+    <div th:case="'Forbidden'">
+        <h1>You don't have permission to view this page.</h1>
+        <p><h3>You are not worthy.</h3></p>
+    </div>
+</th:block>
+</body>
+</html>
