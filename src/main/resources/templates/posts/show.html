@@ -4,12 +4,15 @@
 <body>
 <nav th:replace="fragments :: my-navbar"/>
 <div class="container">
-<h1>Show Post Page</h1>
-<p><h4><span th:text="${post.id}"></span></h4></p>
-<p><h4><span th:text="${post.user.email}"></span></h4></p>
-<p><h2><span th:text="${post.title}"></span></h2></p>
-<p><h4><span th:text="${post.body}"></span></h4></p>
-<p><img th:src="@{'../uploads/'+ ${post.imageUrl}}" /></p>
+    <h1>Show Post Page</h1>
+    <div id="showPost" class="jumbotron">
+
+        <p class="showPostInfo"><h4><span th:text="${post.user.email}"></span></h4></p>
+        <p class="showPostInfo"><h2><span th:text="${post.title}"></span></h2></p>
+        <p class="showPostInfo"><h4><span th:text="${post.body}"></span></h4></p>
+        <p class="showPostInfo"><img th:src="@{'../uploads/'+ ${post.imageUrl}}" /></p>
+        <p class="showPostInfo"><h5>Post ID<span th:text="${post.id}"></span></h5></p>
+    </div>
 </div>
 </body>
 </html>

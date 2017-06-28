@@ -6,6 +6,14 @@
 .landingDiv {
     font-size: 240%;
     margin-left: 20%;
-    margin-bottom: 5%;
+    margin-bottom: 5vw;
     text-align: center;
+}
+
+#showPost {
+    margin-left: 30%;
+}
+
+.showPostInfo {
+    margin-bottom: 4vw;
 }
