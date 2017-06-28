@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface PostsRepository extends CrudRepository<Post, Long>{
 
-
+    public List<Post> findAllByUserId(Long id);
 
 }

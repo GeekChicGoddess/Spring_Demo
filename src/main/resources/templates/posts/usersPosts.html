@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="fragments :: head('Show Posts')" />
+<body>
+<nav th:replace="fragments :: my-navbar" />
+<div class="container">
+    <h1>Here are your posts</h1>
+    <div th:each="post : ${posts}">
+        <p><h4><span th:text="${post.id}"></span></h4></p>
+        <p><h2><span th:text="${post.title}"></span></h2></p>
+        <p><h4><span th:text="${post.body}"></span></h4></p>
+    </div>
+
+</div>
+</body>
+</html>
