@@ -7,9 +7,10 @@
 <div class="container">
     <h1>Here are your posts</h1>
     <div th:each="post : ${posts}">
-        <p><h4><span th:text="${post.id}"></span></h4></p>
         <p><h2><span th:text="${post.title}"></span></h2></p>
         <p><h4><span th:text="${post.body}"></span></h4></p>
+        <p class="showPostInfo"><img th:src="@{'../uploads/'+ ${post.imageUrl}}" /></p>
+        <p><h4>Post ID <span th:text="${post.id}"></span></h4></p>
     </div>
 
 </div>
