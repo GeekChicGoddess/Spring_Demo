@@ -51,13 +51,11 @@
             <p  th:errors="*{body}" />
         </div>
     </div>
-    <!--<div class="form-group">-->
-        <!--<label for="userID">Body</label>-->
-        <!--<input id="userID" type="text" size="100" th:field="*{post.user.id}"/>-->
-    <!--</div>-->
-    <label id="file">Image</label>
-    <input type="file"/>
-    <button class="btn btn-default">Save</button>
+        <label for="file">Upload an image!</label>
+        <input id="file" name="file" type="file"/>
+        <br />
+
+    <button class="btn btn-default" value="upload">Save</button>
 </form>
 
 

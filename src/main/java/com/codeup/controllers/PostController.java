@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 @Controller
@@ -74,7 +77,7 @@ public class PostController {
     public String create(
             @Valid Post post,
             Errors validation,
-//            @RequestParam(name = "file") MultipartFile unloadedfile,
+            @RequestParam(name = "file") MultipartFile uploadedfile,
             Model model){
         if (validation.hasErrors()){
             model.addAttribute("errors", validation);
@@ -84,8 +87,26 @@ public class PostController {
         else {
             User user1 = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             post.setUser(user1);
+
+
+            String idStr =  String.valueOf(user1.getId());
+            String filename =  idStr + uploadedfile.getOriginalFilename().replace(" ", "_");
+//            String filename =  "test2";
+//            String filename =  idStr + String.valueOf(id);
+            String filepath = Paths.get(uploadPath, filename).toString();
+            File destinationFile = new File(filepath);
+
+            try {
+                post.setImageUrl(filename);
+                uploadedfile.transferTo(destinationFile);
+                model.addAttribute("message", "File successfully uploaded!");
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.addAttribute("message", "Oops! Something went wrong! " + e);
+            }
             postSvc.save(post);
             Long id = post.getId();
+
             return "redirect:/posts/" + id;
         }
     }
