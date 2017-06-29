@@ -1,7 +1,9 @@
 package com.codeup.controllers;
 
+import com.codeup.models.Comment;
 import com.codeup.models.Post;
 import com.codeup.models.User;
+import com.codeup.repositories.CommentsRepository;
 import com.codeup.repositories.UsersRepository;
 import com.codeup.svcs.PostSvc;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +28,16 @@ import java.util.ArrayList;
 public class PostController {
     private final PostSvc postSvc;
     private  final UsersRepository usersRepository;
+    private final CommentsRepository commentsRepository;
 
     @Value("${file-upload-path}")
     private String uploadPath;
 
     @Autowired
-    public PostController (PostSvc postSvc, UsersRepository usersRepository){
+    public PostController (PostSvc postSvc, UsersRepository usersRepository, CommentsRepository commentsRepository){
         this.postSvc = postSvc;
         this.usersRepository = usersRepository;
+        this.commentsRepository = commentsRepository;
     }
 
 
@@ -62,6 +66,8 @@ public class PostController {
     @GetMapping("/posts/{id}")
     public String individualpost(@PathVariable long id, Model model) {
         model.addAttribute("post", postSvc.findOne(id));
+        model.addAttribute("comments", commentsRepository.findAllByPostId(id));
+        model.addAttribute("comment", new Comment());
         return "posts/show";
     }
 

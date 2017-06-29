@@ -12,4 +12,6 @@ public interface PostsRepository extends CrudRepository<Post, Long>{
 
     public List<Post> findAllByUserId(Long id);
 
+    public Post findPostById(Long id);
+
 }

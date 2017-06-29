@@ -1,10 +1,12 @@
 package com.codeup.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Created by melodytempleton on 6/20/17.
@@ -86,5 +88,17 @@ public class Post {
     @JsonManagedReference
     @JoinColumn (name = "user_id")
     private User user;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @JsonBackReference
+    private List<Comment> comments;
 
 }

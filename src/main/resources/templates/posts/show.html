@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:include="fragments :: head('Show a post')" />
 <body>
 <nav th:replace="fragments :: my-navbar"/>
@@ -11,7 +12,25 @@
         <p class="showPostInfo"><h2><span th:text="${post.title}"></span></h2></p>
         <p class="showPostInfo"><h4><span th:text="${post.body}"></span></h4></p>
         <p class="showPostInfo"><img th:src="@{'../uploads/'+ ${post.imageUrl}}" /></p>
-        <p class="showPostInfo"><h5>Post ID<span th:text="${post.id}"></span></h5></p>
+        <p class="showPostInfo"><h5>Post ID<span th:name="postId" th:text="${post.id}"></span></h5></p>
+    </div>
+    <div id="commentsContainer">
+        <div th:each="comment : ${post.comments}">
+            <p><h2><span th:text="${comment.commentEntry}"></span></h2></p>
+            <p><h4><span th:text="${comment.user.username}"></span></h4></p>
+        </div>
+        <div sec:authorize="isAuthenticated()" class="createCommentDiv">
+            <form action="/posts/comment" method="post" th:object="${comment}">
+                <div class="form-group">
+                    <label for="body">Comment</label>
+                    <input id="body" type="text" size="200" th:field="*{commentEntry}"/>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('commentEntry')}">
+                        <p  th:errors="*{commentEntry}" />
+                    </div>
+                </div>
+                <button class="btn btn-default" value="upload">Save Comment</button>
+            </form>
+        </div>
     </div>
 </div>
 </body>
