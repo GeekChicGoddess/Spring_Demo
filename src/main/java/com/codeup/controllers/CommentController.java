@@ -20,8 +20,10 @@ import javax.validation.Valid;
  */
 @Controller
 public class CommentController {
-
+    @Autowired
     private final CommentsRepository commentsRepository;
+
+    @Autowired
     private final PostsRepository postsRepository;
 
     @Autowired
@@ -35,11 +37,12 @@ public class CommentController {
                              Errors validation,
                              @RequestParam(name = "postId") String postId,
                              Model model) {
-
+        System.out.println("running post");
         if (validation.hasErrors()) {
             model.addAttribute("errors", validation);
             return "posts/" + postId;
         } else {
+            System.out.println("running the else");
             User user1 = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             comment.setUser(user1);
             Long postIdLong = Long.valueOf(postId);
@@ -48,7 +51,7 @@ public class CommentController {
             commentsRepository.save(comment);
             Long id = comment.getId();
 
-            return "posts/" + postId;
+            return "redirect:/posts/" + postId;
         }
 
     }
