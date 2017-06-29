@@ -16,9 +16,9 @@
     </div>
     <div id="commentsContainer">
         <div th:each="comment : ${post.comments}">
-            <div class="comments">
+            <div class="comments" style="border-bottom: solid 1px black;">
             <p><h4><span th:text="${comment.commentEntry}"></span></h4></p>
-            <p><<span th:text="${comment.user.username}"></span></p>
+            <p><span th:text="${comment.user.username}"></span></p>
                 </div>
         </div>
         <div sec:authorize="isAuthenticated()" class="createCommentDiv container">

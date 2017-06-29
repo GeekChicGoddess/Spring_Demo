@@ -7,10 +7,13 @@
 <div class="container">
     <h1>All The Posts!</h1>
     <div th:each="post : ${posts}">
-        <p><h2><span th:text="${post.title}"></span></h2></p>
-        <p><h4><span th:text="${post.body}"></span></h4></p>
-        <p class="showPostInfo"><img th:src="@{'../uploads/'+ ${post.imageUrl}}" /></p>
-        <p><h4>Post ID <span th:text="${post.id}"></span></h4></p>
+        <div class="postList" style="border: solid 1px black;">
+            <p><h2><span th:text="${post.title}"></span></h2></p>
+            <p><h4><span th:text="${post.body}"></span></h4></p>
+            <p class="showPostInfo"><img th:src="@{'../uploads/'+ ${post.imageUrl}}" /></p>
+            <p>Post ID <span th:text="${post.id}"></span></p>
+            <div class="btn btn-primary"><a th:href="@{'/posts/'+ ${post.id}}" id="viewPost" style="color: white; text-decoration: none">View This Post</a></div>
+        </div>
     </div>
 
 </div>

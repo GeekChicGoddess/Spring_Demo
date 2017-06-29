@@ -19,5 +19,10 @@
 }
 
 .comments {
-    border-bottom: solid;
+    border-bottom: solid 1px black;
+
+}
+
+.postList {
+    border-bottom: solid 1px black;
 }
